@@ -7,9 +7,13 @@
 
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     <script>
-      const socket = io('http://localhost:8080/chat');
+      const socket = io('http://localhost:8080');
 
-      socket.on('receive_message', function (data) {
+      socket.on('connect', () => {
+        console.log('connected');
+      });
+
+      socket.on('onTranscribe', function (data) {
         const element = document.createElement('li');
         element.textContent = data.sender + ': ' + data.message;
         document.getElementById('messages').appendChild(element);
@@ -17,7 +21,7 @@
 
       function sendMessage() {
         const message = document.getElementById('messageInput').value;
-        socket.emit('send_message', { sender: 'User', message: message });
+        socket.emit('transcribeEvent', { sender: 'User', message: message });
       }
     </script>
   </body>
