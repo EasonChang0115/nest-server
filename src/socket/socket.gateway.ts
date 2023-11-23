@@ -58,7 +58,7 @@ export class SocketGateway {
     });
 
     client.on('binaryData', function (data) {
-      // console.log(data);
+      console.log(data);
       if (recognizeStream !== null) {
         recognizeStream.write(data);
       }
