@@ -11,6 +11,7 @@ import { SpeechClient, protos } from '@google-cloud/speech';
       'http://localhost:5501',
       'http://localhost:3000',
       'http://127.0.0.1:5501',
+      'http://10.136.35.151:3000',
     ],
     credentials: true,
   },
@@ -40,7 +41,8 @@ export class SocketGateway {
   handleConnection(client: any) {
     console.log('client connected', client.id);
     let recognizeStream = null;
-    client.on('join', function () {
+    client.on('join', function ({ name }: { name: string }) {
+      console.log(`join ${name}`);
       client.emit('messages', 'Socket Connected to Server');
     });
 
@@ -58,7 +60,6 @@ export class SocketGateway {
     });
 
     client.on('binaryData', function (data) {
-      console.log(data);
       if (recognizeStream !== null) {
         recognizeStream.write(data);
       }
